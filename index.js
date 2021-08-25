@@ -127,10 +127,25 @@ const createPdf = () => {
     let docDefinition = {
         defaultStyle: {
             font: 'Roboto'
+        },
+        header: {},
+        footer: function (currentPage, pageCount, pageSize) {
+            return [
+                {image: 'dot.png', height: 30, width: 20, alignment: "right", margin: [10, 0]}
+            ]
+        },
+        pageBreakBefore: function(currentNode, followingNodesOnPage, nodesOnNextPage, previousNodesOnPage) {
+            return currentNode.headlineLevel === 1 && followingNodesOnPage.length < 15;
         }
     };
     const content = [];
     const styles = {
+        title: {
+            fontSize: 25,
+            font: 'OpenSans',
+            color: "#202124",
+            bold: true
+        },
         question: {
             fontSize: 12,
             font: 'OpenSans',
@@ -148,8 +163,18 @@ const createPdf = () => {
             italics: true
         }
     }
+    content.push({
+        text: `Computer fundamentals`,
+        style: 'title', margin: [18, 5], alignment: 'left'
+    });
+    content.push({
+        text: `@Tricdot`,
+        link: 'https://tricdot.com',
+        style: 'optionLabel', margin: [18, 5]
+    });
     for (let i = 0; i < items.length; i++) {
         content.push({
+            headlineLevel:1,
             columns: [
                 {
                     margin: [0, 15, 0, 5],
@@ -158,7 +183,7 @@ const createPdf = () => {
                     style: 'question',
                 },
                 {
-                    width:"auto",
+                    width: "auto",
                     margin: [0, 15, 0, 5],
                     text: `${items[i].q}`,
                     style: 'question',
@@ -178,11 +203,11 @@ const createPdf = () => {
                 {
                     margin: [18, 4, 0, 4],
                     width: 21,
-                    height:15,
+                    height: 15,
                     svg: `<svg width="21" height="15"><rect x="1" y="1" rx="6" ry="6" width="18" height="12" style="fill:transparent;stroke:grey;stroke-width:1;opacity:1" /></svg>`
                 },
                 {
-                    width:"auto",
+                    width: "auto",
                     margin: [18, 4, 0, 4],
                     text: `${items[i].a}`,
                     style: 'option',
@@ -194,11 +219,11 @@ const createPdf = () => {
                 {
                     margin: [18, 4, 0, 4],
                     width: 21,
-                    height:15,
+                    height: 15,
                     svg: `<svg width="21" height="15"><rect x="1" y="1" rx="6" ry="6" width="18" height="12" style="fill:transparent;stroke:grey;stroke-width:1;opacity:1" /></svg>`
                 },
                 {
-                    width:"auto",
+                    width: "auto",
                     margin: [18, 4, 0, 4],
                     text: `${items[i].b}`,
                     style: 'option',
@@ -210,11 +235,11 @@ const createPdf = () => {
                 {
                     margin: [18, 4, 0, 4],
                     width: 21,
-                    height:15,
+                    height: 15,
                     svg: `<svg width="21" height="15"><rect x="1" y="1" rx="6" ry="6" width="18" height="12" style="fill:transparent;stroke:grey;stroke-width:1;opacity:1" /></svg>`
                 },
                 {
-                    width:"auto",
+                    width: "auto",
                     margin: [18, 4, 0, 4],
                     text: `${items[i].c}`,
                     style: 'option',
@@ -226,11 +251,11 @@ const createPdf = () => {
                 {
                     margin: [18, 4, 0, 4],
                     width: 21,
-                    height:15,
+                    height: 15,
                     svg: `<svg width="21" height="15"><rect x="1" y="1" rx="6" ry="6" width="18" height="12" style="fill:transparent;stroke:grey;stroke-width:1;opacity:1" /></svg>`
                 },
                 {
-                    width:"auto",
+                    width: "auto",
                     margin: [18, 4, 0, 4],
                     text: `${items[i].d}`,
                     style: 'option',
